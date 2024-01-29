@@ -1,32 +1,77 @@
+class Weapon
+{
+    private int _damage;
+    private int _bullets;
 
-    class Weapon
+    public Weapon(int damage, int bullets)
     {
-        private int _damage;
-        private int _bullets;
-
-        public void Fire(Player player)
+        if (damage < 0)
         {
-            player.TakeDamage(_damage);
-            _bullets -= 1;
+            _damage = 0;
+        }
+        else
+        {
+            _damage = damage;
+        }
+
+        if (bullets < 0)
+        {
+            _bullets = 0;
+        }
+        else
+        {
+            _bullets = bullets;
         }
     }
 
-    class Player
+    public void Fire(Player player)
     {
-        private int _health;
+        player.TakeDamage(_damage);
+        _bullets -= 1;
+    }
+}
 
-        public void TakeDamage(int damage)
+class Player
+{
+    private int _health;
+
+    public Player(int health)
+    {
+        if (health < 0)
+        {
+            _health = 0;
+        }
+        else
+        {
+            _health = health;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (damage == null)
+            return;
+
+        if(damage < 0)
+        {
+            return;
+        }
+        else
         {
             _health -= damage;
         }
     }
+}
 
-    class Bot
+class Bot
+{
+    private Weapon _weapon = new Weapon(5, 15);
+
+    private void OnSeePlayer(Player player)
     {
-        private Weapon _weapon;
+        if(player == null)
+            return;
 
-        private void OnSeePlayer(Player player)
-        {
-            _weapon.Fire(player);
-        }
+        _weapon.Fire(player);
     }
+}

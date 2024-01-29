@@ -5,27 +5,28 @@ class Weapon
 
     public Weapon(int damage, int bullets)
     {
-        if (damage < 0)
+        _damage = damage;
+
+        if (_damage < 0)
         {
             _damage = 0;
         }
-        else
-        {
-            _damage = damage;
-        }
 
-        if (bullets < 0)
+        _bullets = bullets;
+
+        if (_bullets < 0)
         {
             _bullets = 0;
-        }
-        else
-        {
-            _bullets = bullets;
         }
     }
 
     public void Fire(Player player)
     {
+        if(player == null)
+        {
+            Console.WriteLine("Нет цели для стрельбы");
+        }
+
         player.TakeDamage(_damage);
         _bullets -= 1;
     }
@@ -49,11 +50,9 @@ class Player
 
     public void TakeDamage(int damage)
     {
-        if (damage == null)
-            return;
-
         if(damage < 0)
         {
+            Console.WriteLine("Отрицательный урон");
             return;
         }
         else
@@ -70,7 +69,10 @@ class Bot
     private void OnSeePlayer(Player player)
     {
         if(player == null)
+        {
+            Console.WriteLine("Нет видимых целей");
             return;
+        }
 
         _weapon.Fire(player);
     }
